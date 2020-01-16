@@ -1,20 +1,15 @@
 import React from 'react';
+import {Layout} from 'antd';
 
-import {Button} from 'antd';
+import {Sidebar, Main} from './layouts';
 
-import Test from './components/Test';
-import logo from './logo.svg';
 import './App.css';
 
-const App = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Button type="primary"><Test /></Button>
-      </header>
-    </div>
-  );
-}
+const App = () => (
+  <Layout className="App">
+    <Sidebar />
+    <Main />
+  </Layout>
+);
 
 export default App;
