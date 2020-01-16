@@ -1,10 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import {configure} from 'mobx';
+
+import * as serviceWorker from './serviceWorker';
+import ContextProvider from './bind/provider';
+import App from './App';
+
+import './index.css';
+
+// Mobx config, forbidden modifing store without action
+configure({enforceActions: 'never'});
+
+ReactDOM.render(<ContextProvider><App /></ContextProvider>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
