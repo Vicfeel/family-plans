@@ -1,6 +1,8 @@
 export interface Plan {
-    id: number;
+    id: string;
     name: string;
     period: number;
     frequency: number;
+    executors: string[];
+    created: string;
 }

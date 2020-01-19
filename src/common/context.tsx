@@ -1,11 +1,13 @@
 import React from 'react';
 
-import userStore from '../stores/userStore';
-import bootstrapAction from '../actions/bootstrapAction';
+import {userStore, planStore, punishmentStore} from '../stores';
+import {bootstrapAction} from '../actions';
 
 export const createContext = () => ({
     stores: {
         userStore,
+        planStore,
+        punishmentStore,
     },
     actions: {
         bootstrapAction
@@ -24,7 +26,3 @@ export const useContext = () => {
 
     return context;
 };
-
-export const useStores = () => useContext().stores;
-
-export const useActions = () => useContext().actions;

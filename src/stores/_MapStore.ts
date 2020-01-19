@@ -1,6 +1,6 @@
 import {observable} from 'mobx';
 
-class MapStore<T extends {id: number}> {
+class MapStore<T extends {id: string}> {
     @observable data: Map<string, T> = new Map();
 
     /**

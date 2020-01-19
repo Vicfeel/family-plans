@@ -1,4 +1,4 @@
 export interface Punishment {
-    id: number;
+    id: string;
     name: string;
 }

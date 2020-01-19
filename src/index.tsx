@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import {configure} from 'mobx';
 
 import * as serviceWorker from './serviceWorker';
-import ContextProvider from './bind/provider';
+import {ContextProvider} from './common';
 import App from './App';
 
 import './index.css';
