@@ -1,0 +1,8 @@
+.btnArea {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.btnArea a {
+    padding: 0 5px;
+}

@@ -10,7 +10,6 @@ import {uuid} from '../utils';
 class PlanAction {
     @action('新增计划') addPlan = (plan: Pick<Plan, 'name'|'executors'|'period'|'frequency'>) => {
         const id = uuid();
-
         const created = moment().format('LLLL');
 
         planStore.set(id, {...plan, id, created});

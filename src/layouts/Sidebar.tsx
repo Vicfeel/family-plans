@@ -49,7 +49,10 @@ const Sidebar = () => {
                     )
                     : (
                         <Menu.Item key={path}>
-                            <Link to={path}>{icon && <Icon type={icon} />}{PATH_MAP[path] || ''}</Link>
+                            <Link to={path}>
+                                {icon && <Icon type={icon} />}
+                                <span>{PATH_MAP[path] || ''}</span>
+                            </Link>
                         </Menu.Item>
                     )
                 )}

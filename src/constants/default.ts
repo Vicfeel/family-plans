@@ -1,4 +1,4 @@
-import {Plan} from '../types';
+import {Plan, Punishment} from '../types';
 
 export const plan: Plan = {
     id: '',
@@ -6,5 +6,11 @@ export const plan: Plan = {
     executors: [] as string[],
     period: 0,
     frequency: 0,
+    created: '',
+};
+
+export const punishment: Punishment = {
+    id: '',
+    name: '',
     created: '',
 };
