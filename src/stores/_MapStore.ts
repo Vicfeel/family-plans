@@ -1,7 +1,11 @@
-import {observable} from 'mobx';
+import {observable, computed} from 'mobx';
 
 class MapStore<T extends {id: string}> {
     @observable data: Map<string, T> = new Map();
+    
+    @computed get items() {
+        return [...this.data.values()];
+    }
 
     /**
      * 初始化数据

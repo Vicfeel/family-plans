@@ -1,0 +1,5 @@
+.container {
+    display: flex;
+    color: #fff;
+    flex-direction: row-reverse;
+}

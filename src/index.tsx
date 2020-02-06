@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import {configure} from 'mobx';
+import 'moment/locale/zh-cn';
 
 import * as serviceWorker from './serviceWorker';
 import {ContextProvider} from './common';

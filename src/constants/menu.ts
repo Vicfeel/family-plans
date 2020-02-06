@@ -21,9 +21,6 @@ export const MENUS = [
                 path: '/setting/plan',
             },
             {
-                path: '/setting/member',
-            },
-            {
                 path: '/setting/punishment',
             }
         ]

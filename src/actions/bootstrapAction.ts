@@ -1,9 +1,9 @@
 import {action} from 'mobx';
 import {message} from 'antd';
 
-import {userStore, planStore, punishmentStore} from '../stores';
+import {memberStore, planStore, punishmentStore} from '../stores';
 import {getFromLocal, saveToLocal} from '../utils';
-import {LocalData} from '../types';
+import {LocalData, Member} from '../types';
 
 class BootstrapAction {
   constructor() {
@@ -11,20 +11,31 @@ class BootstrapAction {
   }
 
   @action('初始化状态') init = () => {
-    const {users = [], plans = [], punishments = []} = getFromLocal({} as LocalData);
+    const {plans = [], punishments = []} = getFromLocal({} as LocalData);
+    const members: Member[] = [{
+      id: 'zwp',
+      name: '张伟佩',
+      pwd: '123',
+      color: 'green',
+    },{
+      id: 'zq',
+      name: '张琦',
+      pwd: '123',
+      color: 'red',
+    }];
 
-    userStore.init(users);
+    memberStore.init(members);
     planStore.init(plans);
     punishmentStore.init(punishments);
     message.success('数据初始化完成');
   }
 
   @action('初始化状态') save = () => {
-    const users = userStore.values();
+    const members = memberStore.values();
     const punishments = planStore.values();
     const plans = punishmentStore.values();
 
-    saveToLocal({users, punishments, plans});
+    saveToLocal({members, punishments, plans});
     message.success('数据保存成功');
   }
 }

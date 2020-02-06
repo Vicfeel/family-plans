@@ -1,11 +1,12 @@
 import React from 'react';
-import {Switch, Route, RouteProps, Redirect} from 'react-router-dom';
+import {Switch, Route, RouteProps} from 'react-router-dom';
 import {Layout} from 'antd';
 
-import {Breadcrumb} from '.';
+import {Breadcrumb, Header} from '.';
 import {SummaryView, PlanCheckInView, PlanSettingView} from '../components';
+import LostView from '../components/LostView';
 
-const {Header, Content, Footer} = Layout;
+const {Content, Footer} = Layout;
 
 const routes: RouteProps[] = [
     {
@@ -27,7 +28,7 @@ const routes: RouteProps[] = [
 
 const Main = () => (
     <Layout>
-        <Header style={{background: '#fff', padding: 0}} />
+        <Header />
         <Content style={{margin: '0 16px'}}>
             <Breadcrumb />
             <Switch>
@@ -37,10 +38,7 @@ const Main = () => (
                         {...route}
                     />
                 ))}
-                <Redirect
-                    from="*"
-                    to="/summary"
-                />
+                <Route component={LostView} />
             </Switch>
         </Content>
         <Footer style={{textAlign: 'center'}}>家庭计划管理平台 ©2020 Created by 张伟佩</Footer>

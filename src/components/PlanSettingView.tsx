@@ -1,47 +1,52 @@
-import React from 'react';
-import {Table, Button} from 'antd';
+import React, {useState} from 'react';
+import {observer} from 'mobx-react-lite';
+import {Table, Button, Tag} from 'antd';
 
 import {useStores} from '../common';
 
-import styles from './PlanSettingView.module.css';
+import EditPlanModal from './EditPlanModal';
+import {useModal} from '../hooks';
+import {Plan} from '../types';
+import {plan as defaultPlan} from '../constants';
 
-const PlanSettingView = () => {
-    const {planStore} = useStores();
-    const items = planStore.values();
+const {Column} = Table;
+
+const PlanSettingView = observer(() => {
+    const {planStore: {items}, memberStore} = useStores();
+    const [showModal, modalProps] = useModal();
+    const [plan, setPlan] = useState(defaultPlan);
+
+    const renderMember = (memberIds: string[]) => memberIds
+        .filter(memberStore.has)
+        .map(memberStore.get)
+        .map((member) => member && (
+            <Tag key={member.id} color={member.color}>{member.name}</Tag>
+        ));
+    const handleEditPlan = (plan: Plan) => () => {
+        setPlan(plan);
+        showModal();
+    };
+    const renderOperation = (plan: Plan) => <Button onClick={handleEditPlan(plan)}>编辑</Button>;
 
     return (
         <>
-            <div className={styles.container}>
-                <Button type="primary">新增计划</Button>
+            <div style={{padding: "10px 0"}}>
+                <Button type="primary" onClick={handleEditPlan(defaultPlan)}>新增计划</Button>
+                <EditPlanModal {...{...modalProps, initPlan: plan}} />
             </div>
             <Table
+                rowKey="id"
                 dataSource={items}
-                columns={[
-                    {
-                        title: '计划',
-                        dataIndex: 'name',
-                        key: 'name',
-                    }, {
-                        title: '周期',
-                        dataIndex: 'period',
-                        key: 'period',
-                    }, {
-                        title: '次数',
-                        dataIndex: 'frequency',
-                        key: 'frequency',
-                    }, {
-                        title: '执行人',
-                        dataIndex: 'executors',
-                        key: 'executors',
-                    }, {
-                        title: '创建时间',
-                        dataIndex: 'created',
-                        key: 'created',
-                    }
-                ]}
-            />
+            >
+                <Column title="计划" dataIndex="name"/>
+                <Column title="周期" dataIndex="period"/>
+                <Column title="次数" dataIndex="frequency"/>
+                <Column title="执行人" dataIndex="executors" render={renderMember} />
+                <Column title="创建时间" dataIndex="created" />
+                <Column title="操作" render={renderOperation}/>
+            </Table>
         </>
     );
-};
+});
 
 export default PlanSettingView;
