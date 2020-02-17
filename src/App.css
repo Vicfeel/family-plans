@@ -35,7 +35,15 @@
   }
 }
 
+/* override */
+
 .ant-row {
   display: flex;
   align-items: center;
+}
+
+.ant-layout-footer {
+  padding: 0;
+  height: 48px;
+  line-height: 48px;
 }

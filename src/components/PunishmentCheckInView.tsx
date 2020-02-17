@@ -3,39 +3,37 @@ import { observer } from 'mobx-react-lite';
 import {Table, Select, Button, Row, Col} from 'antd';
 
 import {useStores, useActions} from '../hooks';
-import {Plan} from '../types';
+import {Punishment} from '../types';
 
 const {Column} = Table;
 const {Option} = Select;
 
-const PlanCheckInView = observer(() => {
+const PunishmentCheckInView = observer(() => {
     const {
         memberStore: {items: members},
-        planStore: {items: plans},
+        punishmentStore: {items: punishments},
     } = useStores();
     const {
-        planProgressAction: {checkIn, getCheckInCount, hasCheckInToday}
+        punishmentProgressAction: {checkIn, getToCheckInCount}
     } = useActions();
     const [memberId, setMemeberId] = useState('');
 
     const selectedMember = memberId !== '';
-    const plansWithCheckIn = plans.map(plan => ({
-        ...plan,
-        checkInCount: selectedMember ? getCheckInCount(plan.id, memberId) : '-'
+    const punishmentsWithCheckIn = punishments.map(punishment => ({
+        ...punishment,
+        toCheckInCount: selectedMember ? getToCheckInCount(punishment.id, memberId) : '-'
     }));
 
-    const handleCheckIn = ({id: planId}: Plan) => () => checkIn(memberId, planId);
-    const renderOperation = (plan: Plan) => (
+    const handleCheckIn = ({id: punishmentId}: Punishment) => () => checkIn(memberId, punishmentId);
+    const renderOperation = (punishment: Punishment) => (
         <Button
-            disabled={!selectedMember || hasCheckInToday(plan.id, memberId)}
+            disabled={!selectedMember}
             type="primary"
-            onClick={handleCheckIn(plan)}
+            onClick={handleCheckIn(punishment)}
         >
-            {selectedMember && hasCheckInToday(plan.id, memberId) ? '今日已打卡' : '今日打卡'}
+            完成一次
         </Button>
     );
-    const renderFrequency = ({frequency, period}: Plan) => `${frequency}/${period}`;
-
     return (
         <>
             <Row style={{padding: "5px 0"}}>
@@ -55,15 +53,14 @@ const PlanCheckInView = observer(() => {
             </Row>
             <Table
                 rowKey="id"
-                dataSource={plansWithCheckIn}
+                dataSource={punishmentsWithCheckIn}
             >
-                <Column title="计划" dataIndex="name"/>
-                <Column title="频率" render={renderFrequency}/>
-                <Column title="已打卡次数" dataIndex="checkInCount" />
+                <Column title="惩罚" dataIndex="name"/>
+                <Column title="未完成次数" dataIndex="toCheckInCount" />
                 <Column title="操作" render={renderOperation}/>
             </Table>
         </>
     )
 });
 
-export default PlanCheckInView;
+export default PunishmentCheckInView;

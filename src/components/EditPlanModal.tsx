@@ -1,4 +1,5 @@
 import React, {useState, FunctionComponent, ChangeEventHandler, useEffect} from 'react';
+import {observer} from 'mobx-react-lite';
 import {Row, Col, Input, Modal, Select, InputNumber} from 'antd';
 
 import {useActions, useStores} from '../common';
@@ -9,7 +10,7 @@ import styles from './EditPlanModal.module.css';
 
 const {Option} = Select;
 
-const EditPlanModal: FunctionComponent<ModalProps> = ({visible, hideModal, initPlan}) => {
+const EditPlanModal: FunctionComponent<ModalProps> = observer(({visible, hideModal, initPlan}) => {
     const [plan, setPlan] = useState(initPlan as Plan);
     const {planAction: {addPlan, updatePlan}} = useActions();
     const {memberStore: {items: members}} = useStores();
@@ -82,6 +83,6 @@ const EditPlanModal: FunctionComponent<ModalProps> = ({visible, hideModal, initP
             </Row>
         </Modal>
     )
-}
+});
 
 export default EditPlanModal;

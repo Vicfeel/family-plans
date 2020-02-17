@@ -32,8 +32,8 @@ class BootstrapAction {
 
   @action('初始化状态') save = () => {
     const members = memberStore.values();
-    const punishments = planStore.values();
-    const plans = punishmentStore.values();
+    const plans = planStore.values();
+    const punishments = punishmentStore.values();
 
     saveToLocal({members, punishments, plans});
     message.success('数据保存成功');

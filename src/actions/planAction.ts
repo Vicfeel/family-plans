@@ -1,18 +1,16 @@
 import {action} from 'mobx';
 
-import moment from 'moment';
 import {message} from 'antd';
 
 import {planStore} from '../stores';
 import {Plan} from '../types';
-import {uuid} from '../utils';
+import {uuid, getTime} from '../utils';
 
 class PlanAction {
     @action('新增计划') addPlan = (plan: Pick<Plan, 'name'|'executors'|'period'|'frequency'>) => {
         const id = uuid();
-        const created = moment().format('LLLL');
 
-        planStore.set(id, {...plan, id, created});
+        planStore.set(id, {...plan, id, created: getTime()});
         message.success('新增计划成功');
     }
 

@@ -1,18 +1,16 @@
 import {action} from 'mobx';
 
-import moment from 'moment';
 import {message} from 'antd';
 
 import {punishmentStore} from '../stores';
 import {Punishment} from '../types';
-import {uuid} from '../utils';
+import {uuid, getTime} from '../utils';
 
 class PunishmentAction {
     @action('新增惩罚') addPunishment = (punishment: Pick<Punishment, 'name'>) => {
         const id = uuid();
-        const created = moment().format('LLLL');
 
-        punishmentStore.set(id, {...punishment, id, created});
+        punishmentStore.set(id, {...punishment, id, created: getTime()});
         message.success('新增惩罚成功');
     }
 

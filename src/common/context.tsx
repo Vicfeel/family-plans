@@ -1,18 +1,24 @@
 import React from 'react';
 
-import {bootstrapAction, planAction, punishmentAction} from '../actions';
-import {memberStore, planStore, punishmentStore} from '../stores';
+import {
+    bootstrapAction, planAction, punishmentAction,
+    planProgressAction, punishmentProgressAction,
+} from '../actions';
+import {memberStore, planStore, punishmentStore, progressStore} from '../stores';
 
 export const createContext = () => ({
     stores: {
         memberStore,
         planStore,
         punishmentStore,
+        progressStore,
     },
     actions: {
         bootstrapAction,
         planAction,
         punishmentAction,
+        planProgressAction,
+        punishmentProgressAction,
     }
 });
 

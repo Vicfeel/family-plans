@@ -16,10 +16,10 @@ const Breadcrumb = () => {
         ], [] as string[]);
 
     return (
-        <AntBreadcrumb style={{padding: '16px 0'}}>
+        <AntBreadcrumb style={{margin: 16}}>
             {paths.filter(identity).map(path =>
                 <AntBreadcrumb.Item key={path}>
-                    <Link to={path}>{PATH_MAP[path] || ''}</Link>
+                    <Link to={path}>{PATH_MAP[path] || '?'}</Link>
                 </AntBreadcrumb.Item>
             )}
         </AntBreadcrumb>

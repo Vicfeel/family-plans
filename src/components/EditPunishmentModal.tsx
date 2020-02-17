@@ -1,4 +1,5 @@
 import React, {useState, FunctionComponent, ChangeEventHandler, useEffect} from 'react';
+import {observer} from 'mobx-react-lite';
 import {Row, Col, Input, Modal} from 'antd';
 
 import {useActions} from '../common';
@@ -7,7 +8,7 @@ import {ModalProps} from '../hooks/modal';
 
 import styles from './EditPunishmentModal.module.css';
 
-const EditPunishmentModal: FunctionComponent<ModalProps> = ({visible, hideModal, initPunishment}) => {
+const EditPunishmentModal: FunctionComponent<ModalProps> = observer(({visible, hideModal, initPunishment}) => {
     const [punishment, setPunishment] = useState(initPunishment as Punishment);
     const {punishmentAction: {addPunishment, updatePunishment}} = useActions();
 
@@ -45,6 +46,6 @@ const EditPunishmentModal: FunctionComponent<ModalProps> = ({visible, hideModal,
             </Row>
         </Modal>
     )
-}
+});
 
 export default EditPunishmentModal;

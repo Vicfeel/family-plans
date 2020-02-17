@@ -3,7 +3,11 @@ import {Switch, Route, RouteProps} from 'react-router-dom';
 import {Layout} from 'antd';
 
 import {Breadcrumb, Header} from '.';
-import {SummaryView, PlanCheckInView, PlanSettingView, PunishmentSettingView} from '../components';
+import {
+    SummaryView,
+    PlanCheckInView, PunishmentCheckInView,
+    PlanSettingView, PunishmentSettingView,
+} from '../components';
 import LostView from '../components/LostView';
 
 const {Content, Footer} = Layout;
@@ -20,6 +24,11 @@ const routes: RouteProps[] = [
         component: PlanCheckInView,
     },
     {
+        path: "/checkIn/punishment",
+        exact: true,
+        component: PunishmentCheckInView,
+    },
+    {
         path: "/setting/plan",
         exact: true,
         component: PlanSettingView,
@@ -34,21 +43,19 @@ const routes: RouteProps[] = [
 const Main = () => (
     <Layout>
         <Header />
-        <Content style={{margin: '0 16px'}}>
-            <Breadcrumb />
-            <div style={{padding: '16px', height: '100%', background: '#fff'}}>
-                <Switch>
-                    {routes.map(route => (
-                        <Route
-                            key={`${route.path}`}
-                            {...route}
-                        />
-                    ))}
-                    <Route component={LostView} />
-                </Switch>
-            </div>
+        <Breadcrumb />
+        <Content style={{margin: '0 16px', padding: 16, background: '#fff'}}>
+            <Switch>
+                {routes.map(route => (
+                    <Route
+                        key={`${route.path}`}
+                        {...route}
+                    />
+                ))}
+                <Route component={LostView} />
+            </Switch>
         </Content>
-        <Footer style={{textAlign: 'center'}}>家庭计划管理平台 ©2020 Created by 张伟佩</Footer>
+        <Footer style={{textAlign: 'center'}}>家庭计划管理系统 ©2020 Created by 张伟佩</Footer>
     </Layout>
 )
 

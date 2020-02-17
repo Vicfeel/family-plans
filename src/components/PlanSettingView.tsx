@@ -8,6 +8,7 @@ import EditPlanModal from './EditPlanModal';
 import {useModal} from '../hooks';
 import {Plan} from '../types';
 import {plan as defaultPlan} from '../constants';
+import { renderTime } from '../utils';
 
 const {Column} = Table;
 
@@ -27,6 +28,8 @@ const PlanSettingView = observer(() => {
         showModal();
     };
     const renderOperation = (plan: Plan) => <Button onClick={handleEditPlan(plan)}>编辑</Button>;
+    const renderFrequency = ({frequency, period}: Plan) => `${frequency}/${period}`;
+    const renderCreated = ({created}: Plan) => renderTime(created);
 
     return (
         <>
@@ -39,10 +42,9 @@ const PlanSettingView = observer(() => {
                 dataSource={items}
             >
                 <Column title="计划" dataIndex="name"/>
-                <Column title="周期" dataIndex="period"/>
-                <Column title="次数" dataIndex="frequency"/>
+                <Column title="频率" render={renderFrequency} />
                 <Column title="执行人" dataIndex="executors" render={renderMember} />
-                <Column title="创建时间" dataIndex="created" />
+                <Column title="创建时间" render={renderCreated} />
                 <Column title="操作" render={renderOperation}/>
             </Table>
         </>
