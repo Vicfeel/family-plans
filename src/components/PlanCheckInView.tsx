@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { observer } from 'mobx-react-lite';
 import {Table, Select, Button, Row, Col} from 'antd';
 
+import {planPeriodMap} from '../constants';
 import {useStores, useActions} from '../hooks';
 import {Plan} from '../types';
 
@@ -34,7 +35,7 @@ const PlanCheckInView = observer(() => {
             {selectedMember && hasCheckInToday(plan.id, memberId) ? '今日已打卡' : '今日打卡'}
         </Button>
     );
-    const renderFrequency = ({frequency, period}: Plan) => `${frequency}/${period}`;
+    const renderFrequency = ({frequency, period}: Plan) => `每${planPeriodMap[period]}${frequency}次`;
 
     return (
         <>

@@ -10,3 +10,11 @@ export interface PunishmentProgress {
     toCheckInCount: number;
     records: string[];
 }
+
+export interface Log {
+    id: string;
+    member: string;
+    type: 'checkInPlan' | 'checkInPunishment';
+    name: string;
+    date: string;
+}
