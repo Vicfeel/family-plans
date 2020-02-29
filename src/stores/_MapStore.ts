@@ -1,6 +1,6 @@
 import {observable, computed} from 'mobx';
 
-class MapStore<T extends {id: string}> {
+class MapStore<T extends {id: string, name: string}> {
     @observable data: Map<string, T> = new Map();
     
     @computed get items() {
@@ -18,6 +18,15 @@ class MapStore<T extends {id: string}> {
      * 获取记录
      */
     get = (id: string) => this.data.get(id);
+
+    /**
+     * 获取名称
+     */
+    getName = (id: string) => {
+        const item = this.data.get(id);
+
+        return item ? item.name : '';
+    }
 
     /**
      * 新增/替换记录

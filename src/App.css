@@ -42,6 +42,10 @@
   align-items: center;
 }
 
+.ant-tag {
+  margin: 0 4px;
+}
+
 .ant-layout-footer {
   padding: 0;
   height: 48px;

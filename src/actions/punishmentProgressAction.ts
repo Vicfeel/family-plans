@@ -4,6 +4,8 @@ import {message} from 'antd';
 
 import {punishmentStore, memberStore, progressStore} from '../stores';
 import {getTime} from '../utils';
+import {LOG_TYPE} from '../types';
+import {logAction} from '.';
 
 class PunishmentProgressAction {
     @action('惩罚打卡') checkIn = (memberId: string, punishmentId: string) => {
@@ -16,7 +18,16 @@ class PunishmentProgressAction {
             return;
         }
 
-        progress.records.push(getTime());
+        const now = getTime();
+        progress.records.push(now);
+
+        logAction.add({
+            member: memberStore.getName(memberId),
+            type: LOG_TYPE.CHECK_IN_PUNISHMENT,
+            name: punishmentStore.getName(punishmentId),
+            date: now,
+        });
+
         if (progress.records.length === progress.toCheckInCount) {
             progressStore.punishments.delete(`${punishmentId}_${memberId}`);
             message.success('恭喜你完成了这个惩罚');
@@ -25,18 +36,6 @@ class PunishmentProgressAction {
             message.success('恭喜你完成一次惩罚');
         }
     }
-
-    @action('领取惩罚') receivePunishment = (memberId: string, count: number) => {
-        const pool = [...progressStore.punishments.keys()];
-
-        Array.from({length: count}).forEach((_) => {
-            const index = Math.floor((Math.random() * pool.length));
-            const punishmentId = pool[index];
-
-            progressStore.addPunishment(punishmentId, memberId);
-        });
-    };
-
 
     getToCheckInCount = (punishmentId: string, memberId: string) => {
         const progress = progressStore.getProgress(punishmentId, memberId);

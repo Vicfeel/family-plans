@@ -4,10 +4,11 @@ import {
     bootstrapAction, planAction, punishmentAction,
     planProgressAction, punishmentProgressAction,
 } from '../actions';
-import {memberStore, planStore, punishmentStore, progressStore} from '../stores';
+import {logStore, memberStore, planStore, punishmentStore, progressStore} from '../stores';
 
 export const createContext = () => ({
     stores: {
+        logStore,
         memberStore,
         planStore,
         punishmentStore,

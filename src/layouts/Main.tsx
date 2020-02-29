@@ -44,7 +44,7 @@ const Main = () => (
     <Layout>
         <Header />
         <Breadcrumb />
-        <Content style={{margin: '0 16px', padding: 16, background: '#fff'}}>
+        <Content style={{margin: '0 16px', padding: 16, background: '#fff', overflowY: 'auto'}}>
             <Switch>
                 {routes.map(route => (
                     <Route

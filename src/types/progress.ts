@@ -11,10 +11,15 @@ export interface PunishmentProgress {
     records: string[];
 }
 
+export enum LOG_TYPE {
+    CHECK_IN_PLAN = 'checkInPlan',
+    CHECK_IN_PUNISHMENT = 'checkInPunishment'
+};
+
 export interface Log {
     id: string;
     member: string;
-    type: 'checkInPlan' | 'checkInPunishment';
+    type: LOG_TYPE;
     name: string;
     date: string;
 }

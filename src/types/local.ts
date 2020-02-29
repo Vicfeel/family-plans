@@ -1,4 +1,4 @@
-import {Punishment, Plan, PlanProgress, PunishmentProgress} from '.';
+import {Punishment, Plan, PlanProgress, PunishmentProgress, Log} from '.';
 
 export interface LocalData {
     punishments: Punishment[],
@@ -7,4 +7,5 @@ export interface LocalData {
         plans: PlanProgress[],
         punishments: PunishmentProgress[],
     }
+    logs: Log[],
 }

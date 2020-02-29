@@ -1,3 +1,4 @@
+export {default as LogView} from './LogView';
 export {default as PlanCheckInView} from './PlanCheckInView';
 export {default as PunishmentCheckInView} from './PunishmentCheckInView';
 export {default as PlanSettingView} from './PlanSettingView';

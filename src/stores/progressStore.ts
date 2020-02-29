@@ -1,37 +1,43 @@
 import {observable, computed} from 'mobx';
 
-import {PlanProgress, PunishmentProgress} from '../types'
+import {PlanProgress, PunishmentProgress, PLAN_PERIOD} from '../types'
+import {planStore} from '.';
 
 class ProgressStore {
     @observable plans: Map<string, PlanProgress> = new Map();
     @observable punishments: Map<string, PunishmentProgress> = new Map();
 
-    @computed get memberPlanProgress() {
+    // 每个成员的计划打卡进度
+    @computed get memberPlanCheckInCount() {
         const memberProgress = {} as {[memberId: string]: number};
 
-        this.plans.forEach((item) => {
-            memberProgress[item.memberId] = memberProgress[item.memberId] || 0;
+        this.plans.forEach(({memberId, planId, records}) => {
+            const plan = planStore.get(planId);
 
-            memberProgress[item.memberId] += item.records.length;
+            if (plan && plan.period === PLAN_PERIOD.WEEK) {
+                memberProgress[memberId] = memberProgress[memberId] || 0;
+                memberProgress[memberId] += records.length;
+            }
         });
 
         return memberProgress;
     }
 
-    @computed get memberPunishmentProgress() {
+    // 每个成员剩余惩罚情况
+    @computed get memberPunishmentToCheckInCount() {
         const memberProgress = {} as {[memberId: string]: number};
 
         this.punishments.forEach((item) => {
             memberProgress[item.memberId] = memberProgress[item.memberId] || 0;
 
-            memberProgress[item.memberId] += item.records.length;
+            memberProgress[item.memberId] += (item.toCheckInCount - item.records.length);
         });
 
         return memberProgress;
     }
 
     init = (plans: PlanProgress[], punishments: PunishmentProgress[]) => {
-        this.plans = new Map(plans.map(val => [`${val.planId}_${val.memberId}}`, val]));
+        this.plans = new Map(plans.map(val => [`${val.planId}_${val.memberId}`, val]));
         this.punishments = new Map(punishments.map(val => [`${val.punishmentId}_${val.memberId}`, val]));
     };
 

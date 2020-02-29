@@ -1,45 +1,50 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import {observer} from 'mobx-react-lite';
 import {Button, Row, Col, Statistic, Card} from 'antd';
 
 import {useStores} from '../hooks';
 import {PLAN_PERIOD} from '../types';
-
+import {LogView} from '.';
+import { trace } from 'mobx';
 // import styles from './SummaryView.module.css';
 
-const SummaryView = () => {
+const SummaryView = observer(() => {
     const {
         memberStore: {items: members},
-        planStore: {items: plans},
-        progressStore: {memberPlanProgress, memberPunishmentProgress}
+        planStore: {items: plans, memberToCheckInCountInThisWeek},
+        progressStore: {memberPlanCheckInCount, memberPunishmentToCheckInCount},
     } = useStores();
 
     const membersWithDetail = members.map((member) => ({
         ...member,
-        planCheckInCount: memberPlanProgress[member.id] || 0,
-        punishmentCheckInCount: memberPunishmentProgress[member.id] || 0,
+        planCheckInCount: memberPlanCheckInCount[member.id] || 0,
+        planTotalCount: memberToCheckInCountInThisWeek[member.id] || 0,
+        punishmentToCheckInCount: memberPunishmentToCheckInCount[member.id] || 0,
         weekPlanNum: plans.filter(plan => plan.executors.includes(member.id) && plan.period === PLAN_PERIOD.WEEK).length,
         yearPlanNum: plans.filter(plan => plan.executors.includes(member.id) && plan.period === PLAN_PERIOD.YEAR).length,
     }));
 
+    trace(true);
+
     return (
         <>
             {membersWithDetail.map(({
-                id, name, planCheckInCount, punishmentCheckInCount,
-                weekPlanNum, yearPlanNum
+                id, name, planCheckInCount, punishmentToCheckInCount,
+                weekPlanNum, yearPlanNum, planTotalCount,
             }) => (
                 <Card key={id} size="small" title={name} style={{marginBottom: "10px"}}>
                     <Row gutter={16} style={{alignItems: 'normal'}}>
                         <Col span={6}>
-                            <Statistic title="打卡次数" value={planCheckInCount} suffix="/ 20" />
+                            <Statistic title="打卡次数" value={planCheckInCount} suffix={` /${planTotalCount}`} />
                             <Link to="/checkIn/plan">
                                 <Button type="primary">去打卡</Button>
                             </Link>
                         </Col>
                         <Col span={6}>
-                            <Statistic title="剩余惩罚" value={punishmentCheckInCount} />
+                            <Statistic title="剩余惩罚" value={punishmentToCheckInCount} />
                             <Link to="/checkIn/punishment">
-                                <Button type="primary" disabled={punishmentCheckInCount === 0}>去完成</Button>
+                                <Button type="primary" disabled={punishmentToCheckInCount === 0}>去完成</Button>
                             </Link>
                         </Col>
                         <Col span={6}>
@@ -57,11 +62,11 @@ const SummaryView = () => {
                     </Row>
                 </Card>
             ))}
-            <Card size="small" title={"公告板"} style={{marginBottom: "10px"}}>
-                
+            <Card size="small" title={"日志板"} style={{marginBottom: "10px"}}>
+                <LogView />
             </Card>
         </>
     )
-};
+});
 
 export default SummaryView;
