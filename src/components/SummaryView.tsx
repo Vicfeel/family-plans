@@ -3,10 +3,8 @@ import {Link} from 'react-router-dom';
 import {observer} from 'mobx-react-lite';
 import {Button, Row, Col, Statistic, Card} from 'antd';
 
-import {useStores} from '../hooks';
-import {PLAN_PERIOD} from '../types';
+import {useStores, useActions} from '../hooks';
 import {LogView} from '.';
-import { trace } from 'mobx';
 // import styles from './SummaryView.module.css';
 
 const SummaryView = observer(() => {
@@ -15,50 +13,54 @@ const SummaryView = observer(() => {
         planStore: {items: plans, memberToCheckInCountInThisWeek},
         progressStore: {memberPlanCheckInCount, memberPunishmentToCheckInCount},
     } = useStores();
+    const {
+        punishmentAction: {receivePunishment}
+    } = useActions();
 
     const membersWithDetail = members.map((member) => ({
         ...member,
         planCheckInCount: memberPlanCheckInCount[member.id] || 0,
         planTotalCount: memberToCheckInCountInThisWeek[member.id] || 0,
         punishmentToCheckInCount: memberPunishmentToCheckInCount[member.id] || 0,
-        weekPlanNum: plans.filter(plan => plan.executors.includes(member.id) && plan.period === PLAN_PERIOD.WEEK).length,
-        yearPlanNum: plans.filter(plan => plan.executors.includes(member.id) && plan.period === PLAN_PERIOD.YEAR).length,
+        planNum: plans.filter(plan => plan.executors.includes(member.id)).length,
     }));
-
-    trace(true);
+    const handleAddPunishment = (id: string) => () => receivePunishment(id, 1);
 
     return (
         <>
             {membersWithDetail.map(({
                 id, name, planCheckInCount, punishmentToCheckInCount,
-                weekPlanNum, yearPlanNum, planTotalCount,
+                planNum, planTotalCount,
             }) => (
                 <Card key={id} size="small" title={name} style={{marginBottom: "10px"}}>
                     <Row gutter={16} style={{alignItems: 'normal'}}>
                         <Col span={6}>
                             <Statistic title="打卡次数" value={planCheckInCount} suffix={` /${planTotalCount}`} />
-                            <Link to="/checkIn/plan">
+                            <Link to={`/checkIn/plan?id=${id}`}>
                                 <Button type="primary">去打卡</Button>
                             </Link>
                         </Col>
                         <Col span={6}>
                             <Statistic title="剩余惩罚" value={punishmentToCheckInCount} />
-                            <Link to="/checkIn/punishment">
+                            <Link to={`/checkIn/punishment?id=${id}`}>
                                 <Button type="primary" disabled={punishmentToCheckInCount === 0}>去完成</Button>
                             </Link>
                         </Col>
                         <Col span={6}>
-                            <Statistic title="进行中的周计划" value={weekPlanNum} />
-                            <Link to="/setting/plan">
+                            <Statistic title="进行中的计划" value={planNum} />
+                            <Link to={`/setting/plan?id=${id}`}>
                                 <Button type="primary">去新增</Button>
                             </Link>
                         </Col>
                         <Col span={6}>
+                            <Button type="danger" onClick={handleAddPunishment(id)}>新增惩罚</Button>
+                        </Col>
+                        {/* <Col span={6}>
                             <Statistic title="进行中的年计划" value={yearPlanNum} />
-                            <Link to="/setting/plan">
+                            <Link to={`/setting/plan?id=${id}`}>
                                 <Button type="primary">去新增</Button>
                             </Link>
-                        </Col>
+                        </Col> */}
                     </Row>
                 </Card>
             ))}

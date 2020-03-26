@@ -1,7 +1,6 @@
 import {observable, computed} from 'mobx';
 
-import {PlanProgress, PunishmentProgress, PLAN_PERIOD} from '../types'
-import {planStore} from '.';
+import {PlanProgress, PunishmentProgress} from '../types'
 
 class ProgressStore {
     @observable plans: Map<string, PlanProgress> = new Map();
@@ -11,13 +10,9 @@ class ProgressStore {
     @computed get memberPlanCheckInCount() {
         const memberProgress = {} as {[memberId: string]: number};
 
-        this.plans.forEach(({memberId, planId, records}) => {
-            const plan = planStore.get(planId);
-
-            if (plan && plan.period === PLAN_PERIOD.WEEK) {
-                memberProgress[memberId] = memberProgress[memberId] || 0;
-                memberProgress[memberId] += records.length;
-            }
+        this.plans.forEach(({memberId, records}) => {
+            memberProgress[memberId] = memberProgress[memberId] || 0;
+            memberProgress[memberId] += records.length;
         });
 
         return memberProgress;

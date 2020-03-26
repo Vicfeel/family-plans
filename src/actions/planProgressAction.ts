@@ -3,7 +3,7 @@ import {action} from 'mobx';
 import {message} from 'antd';
 
 import {planStore, memberStore, progressStore} from '../stores';
-import {PlanProgress, LOG_TYPE, PLAN_PERIOD} from '../types';
+import {PlanProgress, LOG_TYPE} from '../types';
 import {isSameDay, getTime} from '../utils';
 import {logAction} from '.';
 
@@ -29,13 +29,9 @@ class PlanProgressAction {
         message.success('计划打卡完成');
     }
 
-    @action('重置打卡进度') reset = (period: PLAN_PERIOD) => {
+    @action('重置打卡进度') reset = () => {
         [...progressStore.plans.values()].forEach(({planId, memberId}) => {
-            const plan = planStore.get(planId);
-
-            if (!plan || plan.period === period) {
-                this.deleteProgress(planId, memberId);
-            }
+            this.deleteProgress(planId, memberId);
         });
     }
 

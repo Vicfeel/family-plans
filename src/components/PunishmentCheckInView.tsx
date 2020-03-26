@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import { observer } from 'mobx-react-lite';
+import {observer} from 'mobx-react-lite';
 import {Table, Select, Button, Row, Col} from 'antd';
 
-import {useStores, useActions} from '../hooks';
+import {useStores, useActions, useQuery} from '../hooks';
 import {Punishment} from '../types';
 
 const {Column} = Table;
@@ -16,13 +16,15 @@ const PunishmentCheckInView = observer(() => {
     const {
         punishmentProgressAction: {checkIn, getToCheckInCount}
     } = useActions();
-    const [memberId, setMemeberId] = useState('');
+    const [memberId, setMemeberId] = useState(useQuery('id', ''));
 
     const selectedMember = memberId !== '';
-    const punishmentsWithCheckIn = punishments.map(punishment => ({
-        ...punishment,
-        toCheckInCount: selectedMember ? getToCheckInCount(punishment.id, memberId) : '-'
-    }));
+    const punishmentsWithCheckIn = selectedMember
+        ? punishments.map(punishment => ({
+            ...punishment,
+            toCheckInCount: `${getToCheckInCount(punishment.id, memberId)}`
+        })).filter(punishmentWithCheckIn => +punishmentWithCheckIn.toCheckInCount > 0)
+        : punishments.map(punishment => ({...punishment, toCheckInCount: '-'}));
 
     const handleCheckIn = ({id: punishmentId}: Punishment) => () => checkIn(memberId, punishmentId);
     const renderOperation = (punishment: Punishment) => (

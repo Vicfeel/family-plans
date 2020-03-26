@@ -1,6 +1,6 @@
 {
   "name": "family-plans",
-  "version": "0.2.0",
+  "version": "0.3.1",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -43,5 +43,6 @@
   },
   "devDependencies": {
     "@types/react-router-dom": "^5.1.3"
-  }
+  },
+  "homepage": "http://vicfeel.github.io/family-plans"
 }

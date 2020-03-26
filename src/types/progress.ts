@@ -13,7 +13,8 @@ export interface PunishmentProgress {
 
 export enum LOG_TYPE {
     CHECK_IN_PLAN = 'checkInPlan',
-    CHECK_IN_PUNISHMENT = 'checkInPunishment'
+    CHECK_IN_PUNISHMENT = 'checkInPunishment',
+    ADD_PUNISHMENT = 'addPunishment'
 };
 
 export interface Log {

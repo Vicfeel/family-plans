@@ -7,7 +7,7 @@ import {Plan} from '../types';
 import {uuid, getTime} from '../utils';
 
 class PlanAction {
-    @action('新增计划') addPlan = (plan: Pick<Plan, 'name'|'executors'|'period'|'frequency'>) => {
+    @action('新增计划') addPlan = (plan: Pick<Plan, 'name'|'executors'|'frequency'>) => {
         const id = uuid();
 
         planStore.set(id, {...plan, id, created: getTime()});

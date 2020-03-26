@@ -2,8 +2,7 @@ import React, {useState} from 'react';
 import {observer} from 'mobx-react-lite';
 import {Table, Select, Button, Row, Col} from 'antd';
 
-import {PLAN_PERIOD_MAP} from '../constants';
-import {useStores, useActions} from '../hooks';
+import {useStores, useActions, useQuery} from '../hooks';
 import {Plan} from '../types';
 
 const {Column} = Table;
@@ -17,7 +16,7 @@ const PlanCheckInView = observer(() => {
     const {
         planProgressAction: {checkIn, getCheckInCount, hasCheckInToday}
     } = useActions();
-    const [memberId, setMemeberId] = useState('');
+    const [memberId, setMemeberId] = useState(useQuery('id', ''));
 
     const selectedMember = memberId !== '';
     const plansWithCheckIn = selectedMember
@@ -37,7 +36,7 @@ const PlanCheckInView = observer(() => {
             {selectedMember && hasCheckInToday(plan.id, memberId) ? '今日已打卡' : '今日打卡'}
         </Button>
     );
-    const renderFrequency = ({frequency, period}: Plan) => `每${PLAN_PERIOD_MAP[period]}${frequency}次`;
+    const renderFrequency = ({frequency}: Plan) => `每周${frequency}次`;
 
     return (
         <>

@@ -1,10 +1,9 @@
 import React, {useState, FunctionComponent, ChangeEventHandler, useEffect} from 'react';
 import {observer} from 'mobx-react-lite';
-import {Row, Col, Input, Modal, Select, InputNumber, Radio} from 'antd';
-import {RadioChangeEvent} from 'antd/lib/radio';
+import {Row, Col, Input, Modal, Select, InputNumber} from 'antd';
 
 import {useActions, useStores} from '../common';
-import {Plan, PLAN_PERIOD} from '../types';
+import {Plan} from '../types';
 import {ModalProps} from '../hooks/modal';
 
 import styles from './EditPlanModal.module.css';
@@ -25,7 +24,6 @@ const EditPlanModal: FunctionComponent<ModalProps> = observer(({visible, hideMod
         hideModal();
     }
     const handleChangeName: ChangeEventHandler<HTMLInputElement> = (e) => editPlan('name')(e.target.value);
-    const handleChangePeriod = (e: RadioChangeEvent) => editPlan('period')(e.target.value);
 
     return (
         <Modal
@@ -64,19 +62,12 @@ const EditPlanModal: FunctionComponent<ModalProps> = observer(({visible, hideMod
                 </Col>
             </Row>
             <Row>
-                <Col span={8}>周期</Col>
-                <Col span={16} className={styles.content}>
-                    <Radio.Group onChange={handleChangePeriod} value={plan.period}>
-                        <Radio value={PLAN_PERIOD.WEEK}>周</Radio>
-                        <Radio value={PLAN_PERIOD.YEAR}>年</Radio>
-                    </Radio.Group>
-                </Col>
-            </Row>
-            <Row>
-                <Col span={8}>频率</Col>
+                <Col span={8}>每周频率</Col>
                 <Col span={16} className={styles.content}>
                     <InputNumber
                         value={plan.frequency}
+                        min={1}
+                        max={7}
                         onChange={editPlan('frequency')}
                         style={{width: "100%"}}
                     />

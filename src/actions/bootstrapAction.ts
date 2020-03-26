@@ -3,7 +3,7 @@ import {message} from 'antd';
 
 import {memberStore, planStore, punishmentStore, progressStore, logStore} from '../stores';
 import {getFromLocal, saveToLocal} from '../utils';
-import {LocalData, Member, PLAN_PERIOD} from '../types';
+import {LocalData, Member} from '../types';
 import punishmentAction from './punishmentAction';
 import planProgressAction from './planProgressAction';
 
@@ -60,7 +60,7 @@ class BootstrapAction {
 
       punishmentAction.receivePunishment(id, toCheckInCount - checkInCount);
     });
-    planProgressAction.reset(PLAN_PERIOD.WEEK);
+    planProgressAction.reset();
 
     // 清空本周日志
     logStore.init([]);

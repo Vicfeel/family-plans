@@ -7,7 +7,7 @@ import {useStores} from '../common';
 import EditPlanModal from './EditPlanModal';
 import {useModal} from '../hooks';
 import {Plan} from '../types';
-import {plan as defaultPlan, PLAN_PERIOD_MAP} from '../constants';
+import {plan as defaultPlan} from '../constants';
 import { renderTime } from '../utils';
 
 const {Column} = Table;
@@ -28,7 +28,7 @@ const PlanSettingView = observer(() => {
         showModal();
     };
     const renderOperation = (plan: Plan) => <Button onClick={handleEditPlan(plan)}>编辑</Button>;
-    const renderFrequency = ({frequency, period}: Plan) => `每${PLAN_PERIOD_MAP[period]}${frequency}次`;
+    const renderFrequency = ({frequency}: Plan) => `每周${frequency}次`;
     const renderCreated = ({created}: Plan) => renderTime(created);
 
     return (
